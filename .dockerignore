@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────
+# .dockerignore  —  files NOT copied into Docker image
+# Keeps the image small and clean
+# ─────────────────────────────────────────────
+
+# virtual environment — not needed, Docker installs fresh
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter notebook files — not needed for the API
+notebooks/
+*.ipynb
+.ipynb_checkpoints/
+
+# raw CSV files are large — API only needs processed files
+data/raw/
+
+# git files
+.git/
+.gitignore
+
+# uv lock file — not needed inside Docker
+uv.lock
+pyproject.toml
+
+# docs
+README.md
+
+# environment secrets
+.env

@@ -1,0 +1,21 @@
+version: '3.8'
+ 
+services:
+ 
+  voyage-api:
+    # building the image from the Dockerfile in root folder
+    build: .
+ 
+    # name of the running container
+    container_name: voyage_analytics
+ 
+    # map port 5000 on your machine to port 5000 in container
+    ports:
+      - "5000:5000"
+ 
+    # environment variables
+    environment:
+      - PORT=5000
+ 
+    # automatically restart if the container crashes
+    restart: unless-stopped

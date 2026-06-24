@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Voyage Analytics</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- header -->
+        <div class="header">
+            <h1>🧳 Voyage Analytics</h1>
+            <p>Travel Intelligence Platform</p>
+        </div>
+
+        <!-- tab navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('flight', this)">
+                ✈️ Flight Price
+            </button>
+            <button class="tab-btn" onclick="showTab('classify', this)">
+                👤 Flight Classifier
+            </button>
+            <button class="tab-btn" onclick="showTab('hotel', this)">
+                🏨 Hotel Recommendation
+            </button>
+        </div>
+
+
+        <!-- ── TAB 1 : Flight Price Predictor ── -->
+        <div id="flight-tab" class="tab-content active">
+            <div class="card">
+                <h2>✈️ Flight Price Predictor</h2>
+                <p class="subtitle">Fill in the flight details and get the predicted price.</p>
+
+                <div class="row">
+                    <div>
+                        <label>Flight Type</label>
+                        <select id="flightType">
+                            {% for ft in flight_types %}
+                            <option value="{{ ft }}">{{ ft }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Agency</label>
+                        <select id="agency">
+                            {% for ag in agencies %}
+                            <option value="{{ ag }}">{{ ag }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Gender</label>
+                        <select id="gender">
+                            {% for g in genders %}
+                            <option value="{{ g }}">{{ g }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Company</label>
+                        <select id="company">
+                            {% for c in companies_flight %}
+                            <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Flight Duration (hours)</label>
+                        <input type="number" id="time" value="1.76" step="0.1" min="0" />
+                    </div>
+                    <div>
+                        <label>Distance (km)</label>
+                        <input type="number" id="distance" value="676" step="1" min="0" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Traveller Age</label>
+                        <input type="number" id="age" value="25" min="1" max="100" />
+                    </div>
+                    <div>
+                        <label>Month (1 - 12)</label>
+                        <input type="number" id="month" value="6" min="1" max="12" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Day of Week (0=Mon, 6=Sun)</label>
+                        <input type="number" id="day_of_week" value="2" min="0" max="6" />
+                    </div>
+                    <div>
+                        <label>Quarter (1 - 4)</label>
+                        <input type="number" id="quarter" value="2" min="1" max="4" />
+                    </div>
+                </div>
+
+                <label>Is Weekend?</label>
+                <select id="is_weekend">
+                    <option value="0">No — Weekday</option>
+                    <option value="1">Yes — Weekend</option>
+                </select>
+
+                <button class="predict-btn" onclick="predictFlight()">
+                    🔍 Predict Price
+                </button>
+
+                <div id="flight-result" class="result"></div>
+            </div>
+        </div>
+
+
+        <!-- ── TAB 2 : Flight Type Classifier ── -->
+        <div id="classify-tab" class="tab-content">
+            <div class="card">
+                <h2>👤 Flight Type Classifier</h2>
+                <p class="subtitle">Enter traveller booking history and predict their preferred flight class.</p>
+
+                <div class="row">
+                    <div>
+                        <label>Average Price Paid (BRL)</label>
+                        <input type="number" id="avg_price" value="950" step="1" min="0" />
+                    </div>
+                    <div>
+                        <label>Average Distance (km)</label>
+                        <input type="number" id="avg_distance" value="550" step="1" min="0" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Average Flight Time (hours)</label>
+                        <input type="number" id="avg_time" value="1.5" step="0.1" min="0" />
+                    </div>
+                    <div>
+                        <label>Total Flights Booked</label>
+                        <input type="number" id="total_flights" value="50" min="1" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Highest Price Paid (BRL)</label>
+                        <input type="number" id="max_price" value="1500" step="1" min="0" />
+                    </div>
+                    <div>
+                        <label>Lowest Price Paid (BRL)</label>
+                        <input type="number" id="min_price" value="400" step="1" min="0" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <label>Traveller Age</label>
+                        <input type="number" id="clf_age" value="35" min="1" max="100" />
+                    </div>
+                    <div>
+                        <label>Company</label>
+                        <select id="clf_company">
+                            {% for c in companies_classify %}
+                            <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <button class="predict-btn classify-btn" onclick="classifyTraveller()">
+                    🔍 Classify Traveller
+                </button>
+
+                <div id="classify-result" class="result"></div>
+            </div>
+        </div>
+
+
+        <!-- ── TAB 3 : Hotel Recommendation ── -->
+        <div id="hotel-tab" class="tab-content">
+            <div class="card">
+                <h2>🏨 Hotel Recommendation</h2>
+                <p class="subtitle">Enter your budget and stay duration to find the best hotels.</p>
+
+                <div class="row">
+                    <div>
+                        <label>Budget per Night (BRL)</label>
+                        <input type="number" id="budget" value="250" step="1" min="1" />
+                    </div>
+                    <div>
+                        <label>Number of Days (1 - 4)</label>
+                        <input type="number" id="num_days" value="3" min="1" max="4" />
+                    </div>
+                </div>
+
+                <button class="predict-btn hotel-btn" onclick="recommendHotels()">
+                    🔍 Find Hotels
+                </button>
+
+                <div id="hotel-result" class="result"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // tab switching
+        function showTab(name, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(name + '-tab').classList.add('active');
+            btn.classList.add('active');
+        }
+
+
+        // Tab 1 — flight price prediction
+        async function predictFlight() {
+            const payload = {
+                flightType  : document.getElementById("flightType").value,
+                agency      : document.getElementById("agency").value,
+                gender      : document.getElementById("gender").value,
+                company     : document.getElementById("company").value,
+                time        : parseFloat(document.getElementById("time").value),
+                distance    : parseFloat(document.getElementById("distance").value),
+                age         : parseInt(document.getElementById("age").value),
+                month       : parseInt(document.getElementById("month").value),
+                day_of_week : parseInt(document.getElementById("day_of_week").value),
+                is_weekend  : parseInt(document.getElementById("is_weekend").value),
+                quarter     : parseInt(document.getElementById("quarter").value)
+            };
+
+            const res  = await fetch("/predict", {
+                method  : "POST",
+                headers : { "Content-Type": "application/json" },
+                body    : JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            const div  = document.getElementById("flight-result");
+            div.style.display = "block";
+
+            if (res.ok) {
+                div.className = "result success";
+                div.innerHTML = `
+                    <p>✅ Prediction Successful</p>
+                    <p class="big-number">💰 ${data.predicted_price} ${data.currency}</p>
+                    <p class="detail">${payload.flightType} &nbsp;|&nbsp; ${payload.agency} &nbsp;|&nbsp; ${payload.distance} km &nbsp;|&nbsp; ${payload.time} hrs</p>
+                `;
+            } else {
+                div.className = "result error";
+                div.innerHTML = `<p>❌ Error: ${data.error}</p>`;
+            }
+        }
+
+
+        // Tab 2 — flight type classification
+        async function classifyTraveller() {
+            const payload = {
+                avg_price     : parseFloat(document.getElementById("avg_price").value),
+                avg_distance  : parseFloat(document.getElementById("avg_distance").value),
+                avg_time      : parseFloat(document.getElementById("avg_time").value),
+                total_flights : parseInt(document.getElementById("total_flights").value),
+                max_price     : parseFloat(document.getElementById("max_price").value),
+                min_price     : parseFloat(document.getElementById("min_price").value),
+                age           : parseInt(document.getElementById("clf_age").value),
+                company       : document.getElementById("clf_company").value
+            };
+
+            const res  = await fetch("/classify", {
+                method  : "POST",
+                headers : { "Content-Type": "application/json" },
+                body    : JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            const div  = document.getElementById("classify-result");
+            div.style.display = "block";
+
+            if (res.ok) {
+                const icons = { economic: "🟢", premium: "🟡", firstClass: "🔵" };
+                const icon  = icons[data.predicted_flight_type] || "✅";
+                div.className = "result success";
+                div.innerHTML = `
+                    <p>✅ Classification Successful</p>
+                    <p class="big-number">${icon} ${data.predicted_flight_type}</p>
+                    <p class="detail">Avg Price ${payload.avg_price} BRL &nbsp;|&nbsp; ${payload.total_flights} flights &nbsp;|&nbsp; Age ${payload.age}</p>
+                `;
+            } else {
+                div.className = "result error";
+                div.innerHTML = `<p>❌ Error: ${data.error}</p>`;
+            }
+        }
+
+
+        // Tab 3 — hotel recommendation
+        async function recommendHotels() {
+            const payload = {
+                budget_per_night : parseFloat(document.getElementById("budget").value),
+                num_days         : parseInt(document.getElementById("num_days").value)
+            };
+
+            const res  = await fetch("/recommend", {
+                method  : "POST",
+                headers : { "Content-Type": "application/json" },
+                body    : JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            const div  = document.getElementById("hotel-result");
+            div.style.display = "block";
+
+            if (res.ok) {
+                const hotelCards = data.recommendations.map((h, i) => `
+                    <div class="hotel-card">
+                        <div class="hotel-rank">#${i + 1}</div>
+                        <div class="hotel-info">
+                            <p class="hotel-name">${h.name}</p>
+                            <p class="hotel-place">📍 ${h.place}</p>
+                        </div>
+                        <div class="hotel-price">
+                            <p class="hotel-night">${h.price_per_night} BRL/night</p>
+                            <p class="hotel-total">Total: ${h.estimated_total} BRL</p>
+                            <p class="hotel-bookings">${h.total_bookings} bookings</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                div.className = "result success";
+                div.innerHTML = `
+                    <p>✅ Top Hotels for ${payload.num_days} night(s) within ${payload.budget_per_night} BRL/night</p>
+                    <div class="hotel-list">${hotelCards}</div>
+                `;
+            } else {
+                div.className = "result error";
+                div.innerHTML = `<p>❌ ${data.error}</p>`;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

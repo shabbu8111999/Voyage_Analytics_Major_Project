@@ -1,0 +1,274 @@
+/* base */
+* {
+    margin     : 0;
+    padding    : 0;
+    box-sizing : border-box;
+}
+
+body {
+    font-family : Arial, sans-serif;
+    background  : #f0f2f5;
+    color       : #333;
+    min-height  : 100vh;
+    padding     : 30px 16px;
+}
+
+.container {
+    max-width : 700px;
+    margin    : 0 auto;
+}
+
+
+/* header */
+.header {
+    text-align    : center;
+    margin-bottom : 24px;
+}
+
+.header h1 {
+    font-size   : 30px;
+    color       : #2c3e50;
+    font-weight : bold;
+}
+
+.header p {
+    font-size : 14px;
+    color     : #888;
+    margin-top: 4px;
+}
+
+
+/* tabs */
+.tabs {
+    display         : flex;
+    background      : white;
+    border-radius   : 10px;
+    padding         : 6px;
+    margin-bottom   : 20px;
+    box-shadow      : 0 2px 8px rgba(0,0,0,0.08);
+    gap             : 6px;
+}
+
+.tab-btn {
+    flex          : 1;
+    padding       : 11px 8px;
+    border        : none;
+    border-radius : 7px;
+    background    : transparent;
+    color         : #666;
+    font-size     : 13px;
+    font-weight   : 600;
+    cursor        : pointer;
+    transition    : all 0.2s ease;
+}
+
+.tab-btn:hover {
+    background : #f0f2f5;
+    color      : #2c3e50;
+}
+
+.tab-btn.active {
+    background : #2c3e50;
+    color      : white;
+}
+
+
+/* tab content */
+.tab-content {
+    display : none;
+}
+
+.tab-content.active {
+    display : block;
+}
+
+
+/* card */
+.card {
+    background    : white;
+    border-radius : 12px;
+    padding       : 28px;
+    box-shadow    : 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    font-size     : 20px;
+    color         : #2c3e50;
+    margin-bottom : 6px;
+}
+
+.subtitle {
+    font-size     : 13px;
+    color         : #888;
+    margin-bottom : 20px;
+}
+
+
+/* form elements */
+label {
+    display       : block;
+    font-size     : 13px;
+    font-weight   : bold;
+    color         : #444;
+    margin-top    : 14px;
+    margin-bottom : 4px;
+}
+
+input,
+select {
+    width         : 100%;
+    padding       : 10px 12px;
+    border        : 1px solid #ddd;
+    border-radius : 6px;
+    font-size     : 14px;
+    color         : #333;
+    background    : #fafafa;
+    transition    : border 0.2s;
+}
+
+input:focus,
+select:focus {
+    outline      : none;
+    border-color : #2c3e50;
+    background   : white;
+}
+
+.row {
+    display               : grid;
+    grid-template-columns : 1fr 1fr;
+    gap                   : 14px;
+}
+
+
+/* buttons */
+.predict-btn {
+    width         : 100%;
+    margin-top    : 22px;
+    padding       : 13px;
+    background    : #2c3e50;
+    color         : white;
+    border        : none;
+    border-radius : 7px;
+    font-size     : 15px;
+    font-weight   : bold;
+    cursor        : pointer;
+    transition    : background 0.2s;
+}
+
+.predict-btn:hover {
+    background : #3d566e;
+}
+
+.classify-btn {
+    background : #1a6b4a;
+}
+
+.classify-btn:hover {
+    background : #22895e;
+}
+
+.hotel-btn {
+    background : #8b4513;
+}
+
+.hotel-btn:hover {
+    background : #a0522d;
+}
+
+
+/* result box */
+.result {
+    display       : none;
+    margin-top    : 20px;
+    padding       : 20px;
+    border-radius : 8px;
+    text-align    : center;
+}
+
+.result.success {
+    background : #d4edda;
+    border     : 1px solid #28a745;
+    color      : #155724;
+}
+
+.result.error {
+    background : #f8d7da;
+    border     : 1px solid #dc3545;
+    color      : #721c24;
+}
+
+.big-number {
+    font-size   : 34px;
+    font-weight : bold;
+    margin      : 10px 0;
+}
+
+.detail {
+    font-size : 13px;
+    color     : #555;
+    margin-top: 6px;
+}
+
+
+/* hotel cards */
+.hotel-list {
+    margin-top : 14px;
+    text-align : left;
+}
+
+.hotel-card {
+    display         : flex;
+    align-items     : center;
+    background      : white;
+    border          : 1px solid #c3e6cb;
+    border-radius   : 8px;
+    padding         : 14px 16px;
+    margin-bottom   : 10px;
+    gap             : 14px;
+}
+
+.hotel-rank {
+    font-size   : 22px;
+    font-weight : bold;
+    color       : #2c3e50;
+    min-width   : 36px;
+    text-align  : center;
+}
+
+.hotel-info {
+    flex : 1;
+}
+
+.hotel-name {
+    font-size   : 16px;
+    font-weight : bold;
+    color       : #2c3e50;
+}
+
+.hotel-place {
+    font-size  : 13px;
+    color      : #666;
+    margin-top : 3px;
+}
+
+.hotel-price {
+    text-align : right;
+}
+
+.hotel-night {
+    font-size   : 15px;
+    font-weight : bold;
+    color       : #1a6b4a;
+}
+
+.hotel-total {
+    font-size  : 13px;
+    color      : #555;
+    margin-top : 3px;
+}
+
+.hotel-bookings {
+    font-size  : 12px;
+    color      : #999;
+    margin-top : 3px;
+}

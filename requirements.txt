@@ -1,0 +1,15 @@
+pandas
+numpy
+scikit-learn
+xgboost
+joblib
+matplotlib
+seaborn
+flask
+flask-cors
+pydantic
+gunicorn
+mlflow
+protobuf==4.25.3
+setuptools
+python-dotenv
