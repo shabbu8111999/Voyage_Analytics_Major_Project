@@ -6,6 +6,16 @@ The project covers the full ML pipeline — from raw data to a working web appli
 
 ---
 
+## Problem Statement
+
+- Analyze travel data from users, flights, and hotels datasets.
+- Identify travel patterns and customer preferences.
+- Build machine learning models to predict travel-related decisions.
+- Generate personalized travel recommendations for users.
+- Create an end-to-end MLOps pipeline for model deployment and monitoring.
+
+---
+
 ## What This Project Does
 
 I have 3 datasets from a travel booking platform:
